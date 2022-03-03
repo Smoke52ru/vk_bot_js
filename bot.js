@@ -1,12 +1,12 @@
 import VkBot from 'node-vk-bot-api'
-import {configGroup} from "./configs/config.js";
-
-
 
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // INIT
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+const configGroup = {
+    token: process.env.TOKEN,
+}
 const bot = new VkBot(configGroup);
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
