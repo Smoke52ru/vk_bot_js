@@ -41,7 +41,8 @@ bot.command(commands.start, (ctx) => {
         ]]))
 })
 
-console.log(JSON.stringify(await Weather.getJson(), null, 2))
+if (process.env.DEV_MODE)
+    console.log(JSON.stringify(await Weather.getJson(), null, 2))
 bot.command(commands.weather, async (ctx) => {
     ctx.reply(`${await Weather.getFunnyString()}`)
 })
