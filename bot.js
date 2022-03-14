@@ -49,44 +49,60 @@ bot.command(commands.start, (ctx) => {
 })
 
 bot.command(commands.keyboard, (ctx) => {
-    const keyboard = new KB(KBButtons, {columns: 5})
-    ctx.reply('Лови клаву)', null, keyboard.markup)
+    try {
+        const keyboard = new KB(KBButtons, {columns: 5})
+        ctx.reply('Лови клаву)', null, keyboard.markup)
+    } catch (e) {
+
+    }
 })
 
 bot.command(commands.schedule, async (ctx) => {
-    const command = ctx.message.text.split(' ')[0]
-    switch (command) {
-        case 'сегодня':
-            ctx.reply(`${await getScheduleToday()}`)
-            return
-        case 'завтра':
-            ctx.reply(`${await getScheduleByPlusDays(1)}`)
-            return
-        case 'пн':
-        case 'вт':
-        case 'ср':
-        case 'чт':
-        case 'пт':
-            ctx.reply(`${await getScheduleByWeekday(command)}`)
-            return
-        default:
-            let plusDays = 0
-            try {
-                let arg = ctx.message.text.split(' ')[1]
-                plusDays = arg.startsWith('+') ? Number(arg.slice(1)) : 0
-            } catch (e) {
-            } finally {
-                ctx.reply(`${await getScheduleByPlusDays(plusDays)}`)
-            }
+    try {
+        const command = ctx.message.text.split(' ')[0]
+        switch (command) {
+            case 'сегодня':
+                ctx.reply(`${await getScheduleToday()}`)
+                return
+            case 'завтра':
+                ctx.reply(`${await getScheduleByPlusDays(1)}`)
+                return
+            case 'пн':
+            case 'вт':
+            case 'ср':
+            case 'чт':
+            case 'пт':
+                ctx.reply(`${await getScheduleByWeekday(command)}`)
+                return
+            default:
+                let plusDays = 0
+                try {
+                    let arg = ctx.message.text.split(' ')[1]
+                    plusDays = arg.startsWith('+') ? Number(arg.slice(1)) : 0
+                } catch (e) {
+                } finally {
+                    ctx.reply(`${await getScheduleByPlusDays(plusDays)}`)
+                }
+        }
+    } catch (e) {
+
     }
 })
 
 bot.command(commands.weather, async (ctx) => {
-    ctx.reply(`${await Weather.getString()}`)
+    try {
+        ctx.reply(`${await Weather.getString()}`)
+    } catch (e) {
+
+    }
 })
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // RUN
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 console.log('Bot is running...')
+setInterval(() => {
+    console.log('Oscar Mike...')
+}, 30000)
 bot.startPolling();
