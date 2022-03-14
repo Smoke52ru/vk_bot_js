@@ -26,8 +26,8 @@ export class Weather {
             wind: `${data.wind.speed} м/с`,
             clouds: `${data.clouds.all} %`,
             visibility: `${(data.visibility / 1000).toFixed(1)} км`,
-            sunrise: `${new Date(data.sys.sunrise + (data.timezone * 1000)).toLocaleTimeString()}`,
-            sunset: `${new Date(data.sys.sunset + (data.timezone * 1000)).toLocaleTimeString()}`,
+            sunrise: `${new Date(data.sys.sunrise + (data.timezone * 1000)).toLocaleTimeString()}`,//FIXME
+            sunset: `${new Date(data.sys.sunset + (data.timezone * 1000)).toLocaleTimeString()}`,//FIXME Восход: 4:33:48 AM Закат: 4:34:30 AM
         }
     }
 
@@ -41,7 +41,7 @@ export class Weather {
             `Ветер: ${json.wind}\n` +
             `Влажность: ${json.humidity}\n` +
             `Видимость: ${json.visibility}\n` +
-            `Восход: ${json.sunrise} Закат: ${json.sunset}\n` +
+            //`Восход: ${json.sunrise} Закат: ${json.sunset}\n` + FIXME
             `Атмосферное давление: ${json.pressure}`
         )
     }
