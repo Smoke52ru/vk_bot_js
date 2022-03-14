@@ -104,5 +104,5 @@ bot.command(commands.weather, async (ctx) => {
 console.log('Bot is running...')
 setInterval(() => {
     console.log('Oscar Mike...')
-}, 30000)
+}, 1000 * 60 * 60)
 bot.startPolling();
