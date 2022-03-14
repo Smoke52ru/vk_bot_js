@@ -86,7 +86,7 @@ export class Schedule {
                         }
                     })
                     // Убираем дубли
-                    if (composeDuplicates) { //TODO
+                    if (composeDuplicates) {
                         let cleanedLessons = lessons.slice(0, 1)
                         for (let currentLesson of lessons.slice(1)) {
                             if (currentLesson[0] === cleanedLessons[cleanedLessons.length - 1][0] &&

@@ -102,7 +102,7 @@ bot.command(commands.weather, async (ctx) => {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 console.log('Bot is running...')
-setInterval(() => {
+setInterval(() => { // FIXME
     console.log('Oscar Mike...')
 }, 1000 * 60 * 60)
 bot.startPolling();
