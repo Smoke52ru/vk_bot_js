@@ -36,14 +36,13 @@ const KBButtons =
 
 bot.command(commands.start, (ctx) => {
     const message = (
-        `Prefixes: $\{GLOBAL_PREFIXES}\n` +
-        `\n` +
         `Commands:\n` +
-        `s +[n] - расписание на n-ный день (напр. +1 - завтра)\n` +
-        `w - погода` +
-        `k - удобная клавиатура\n` +
+        `s [+n] - расписание на n-ный день (напр. +1 - завтра)\n` +
+        `w - погода\n` +
+        `k - удобная клавиатура (!)\n` +
         `\n` +
-        `BugReport: При возникновении ошибок в работе бота пишите мне ` +
+        `BugReport:\n ` +
+        `При возникновении ошибок в работе бота пишите мне\n` +
         `vk.com/smoke52ru`
     )
     ctx.reply(message)
@@ -71,14 +70,13 @@ bot.command(commands.schedule, async (ctx) => {
             ctx.reply(`${await getScheduleByWeekday(command)}`)
             return
         default:
+            let plusDays = 0
             try {
                 let arg = ctx.message.text.split(' ')[1]
-                let plusDays = arg.startsWith('+') ? Number(arg.slice(1)) : 0
-                ctx.reply(`${await getScheduleByPlusDays(plusDays)}`)
-                return
+                plusDays = arg.startsWith('+') ? Number(arg.slice(1)) : 0
             } catch (e) {
-                console.error(e)
-                ctx.reply(`Ошибка обработки запроса\nDEBUG INFO: ${e}`)
+            } finally {
+                ctx.reply(`${await getScheduleByPlusDays(plusDays)}`)
             }
     }
 })

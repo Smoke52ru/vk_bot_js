@@ -9,7 +9,7 @@
 *           [Аудитория/аудитории]
 *           [Ссылка на конференцию (если есть)]
 *   }
-* TODO Почистить дубликаты
+*
 */
 
 import axios from "axios";
@@ -21,13 +21,13 @@ export class Schedule {
                 userPassword,
                 startDate = new Date().toLocaleDateString(),
                 endDate = startDate,
-                composeDublicates = true) {
+                composeDuplicates = true) {
 
         this._login = userLogin
         this._password = userPassword
         this._startDate = startDate
         this._endDate = endDate
-        this._composeDublicates = composeDublicates
+        this._composeDuplicates = composeDuplicates
     }
 
     async login(login = this._login,
@@ -52,7 +52,7 @@ export class Schedule {
     async getSchedule(startDate = this._startDate,
                       endDate = startDate,
                       link,
-                      composeDublicates = true) {
+                      composeDuplicates = true) {
         if (!link) {
             link = await this.login()
         }
@@ -63,29 +63,52 @@ export class Schedule {
 
         console.log('DEBUG: ' + this._linkToScheduleWithArgs)
 
-
         this.schedule =
             await axios.get(this._linkToScheduleWithArgs)
                 .then((res) => {
                     return parse(res.data).querySelectorAll('#schedule-student-container tr')
                 })
                 .then((rowsDOM) => {
-                    /*let headers = rowsDOM[0].rawText
-                        .split('\n')
-                        .map((th) => th.trim())
-                        .filter((th) => th)*/
+                    // Убираем заголовок
+                    rowsDOM = rowsDOM.slice(1)
+                    // Считываем день
+                    const day = rowsDOM[0].innerText.trim()
+                    // Считываем пары
+                    let lessons = rowsDOM.slice(1).map((tr) => {
+                        const lessonInfo = tr.querySelectorAll("td")
+                            .map((td) => td.innerText.trim())
 
-                    return rowsDOM.slice(1)
-                        .map((rowDOM) => {
-                            let text = rowDOM.rawText
-                                .split('\n')
-                                .map((rowText) => rowText.trim())
-                                .filter((rowText) => rowText)
-                                .join('\n')
-                            let link = rowDOM.querySelector('a')
-                            return text + (link ? '\n' + link.rawAttributes.href : '')
-                        })
+                        try {
+                            let lessonLink = tr.querySelector('a').rawAttributes.href
+                            return [...lessonInfo, lessonLink]
+                        } catch (e) {
+                            return lessonInfo
+                        }
+                    })
+                    // Убираем дубли
+                    if (composeDuplicates) { //TODO
+                        let cleanedLessons = lessons.slice(0, 1)
+                        for (let currentLesson of lessons.slice(1)) {
+                            if (currentLesson[0] === cleanedLessons[cleanedLessons.length - 1][0] &&
+                                currentLesson[1] === cleanedLessons[cleanedLessons.length - 1][1] &&
+                                currentLesson[3] === cleanedLessons[cleanedLessons.length - 1][3]
+                            ) {
+                                cleanedLessons[cleanedLessons.length - 1][4] += `, ${currentLesson[4]}`
+                            } else {
+                                cleanedLessons.push(currentLesson)
+                            }
+                        }
+                        lessons = cleanedLessons
+                    }
+                    // Приведение к массиву строк + фильтрация пустых ячеек + разделение \n
+                    lessons = lessons.map(lesson => lesson
+                        .filter(str => str !== '')
+                        .join('\n')
+                    )
+
+                    return [day, ...lessons]
                         .join('\n\n')
+                        // Фиксим тире
                         .replace(new RegExp('&ndash;', 'g'), ' - ')
                 })
 
@@ -132,3 +155,5 @@ export async function getScheduleByLocaleDate(dateString = new Date().toLocaleDa
 export async function getScheduleToday() {
     return await getScheduleByPlusDays()
 }
+
+console.log(await getScheduleByPlusDays(1))
