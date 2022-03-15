@@ -6,6 +6,11 @@ export class Weather {
         degree: '&#176;',
     }
 
+    static unixUTCtoLocaleTimeString(secsUTC, tzUTC) {
+        return new Date((secsUTC + tzUTC) * 1000)
+            .toLocaleTimeString('ru-RU')
+    }
+
     static async getFullJSON(city = 'Nizhniy Novgorod') {
         const apiKey = process.env.WEATHER_API_KEY
         const apiCity = city.replace(' ', '+')
@@ -26,8 +31,8 @@ export class Weather {
             wind: `${data.wind.speed} м/с`,
             clouds: `${data.clouds.all} %`,
             visibility: `${(data.visibility / 1000).toFixed(1)} км`,
-            sunrise: `${new Date((data.sys.sunrise + data.timezone) * 1000).toLocaleTimeString('ru-RU')}`,
-            sunset: `${new Date((data.sys.sunset + data.timezone) * 1000).toLocaleTimeString('ru-RU')}`,
+            sunrise: `${this.unixUTCtoLocaleTimeString(data.sys.sunrise, data.timezone)}`,
+            sunset: `${this.unixUTCtoLocaleTimeString(data.sys.sunset, data.timezone)}`,
         }
     }
 
