@@ -26,8 +26,8 @@ export class Weather {
             wind: `${data.wind.speed} м/с`,
             clouds: `${data.clouds.all} %`,
             visibility: `${(data.visibility / 1000).toFixed(1)} км`,
-            sunrise: `${new Date((data.sys.sunrise + data.timezone) * 1000).toLocaleTimeString()}`,
-            sunset: `${new Date((data.sys.sunset + data.timezone) * 1000).toLocaleTimeString()}`,
+            sunrise: `${new Date((data.sys.sunrise + data.timezone) * 1000).toLocaleTimeString('ru-RU')}`,
+            sunset: `${new Date((data.sys.sunset + data.timezone) * 1000).toLocaleTimeString('ru-RU')}`,
         }
     }
 
