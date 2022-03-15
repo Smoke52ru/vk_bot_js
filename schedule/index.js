@@ -52,7 +52,7 @@ export class Schedule {
     async getSchedule(startDate = this._startDate,
                       endDate = startDate,
                       link,
-                      composeDuplicates = true) {
+                      composeDuplicates = this._composeDuplicates) {
         if (!link) {
             link = await this.login()
         }
@@ -77,7 +77,7 @@ export class Schedule {
                     let lessons = rowsDOM.slice(1).map((tr) => {
                         const lessonInfo = tr.querySelectorAll("td")
                             .map((td) => td.innerText.trim())
-
+                        // Пробуем считать ссылку
                         try {
                             let lessonLink = tr.querySelector('a').rawAttributes.href
                             return [...lessonInfo, lessonLink]
@@ -89,9 +89,9 @@ export class Schedule {
                     if (composeDuplicates) {
                         let cleanedLessons = lessons.slice(0, 1)
                         for (let currentLesson of lessons.slice(1)) {
-                            if (currentLesson[0] === cleanedLessons[cleanedLessons.length - 1][0] &&
-                                currentLesson[1] === cleanedLessons[cleanedLessons.length - 1][1] &&
-                                currentLesson[3] === cleanedLessons[cleanedLessons.length - 1][3]
+                            if (currentLesson[0] === cleanedLessons[cleanedLessons.length - 1][0] && // Время
+                                currentLesson[1] === cleanedLessons[cleanedLessons.length - 1][1] && // Предмет
+                                currentLesson[3] === cleanedLessons[cleanedLessons.length - 1][3]    // Препод
                             ) {
                                 cleanedLessons[cleanedLessons.length - 1][4] += `, ${currentLesson[4]}`
                             } else {
@@ -118,13 +118,7 @@ export class Schedule {
 }
 
 export async function getScheduleByWeekday(str) {
-    let weekdays = {
-        'пн': 1,
-        'вт': 2,
-        'ср': 3,
-        'чт': 4,
-        'пт': 5,
-    }
+    let weekdays = {'пн': 1, 'вт': 2, 'ср': 3, 'чт': 4, 'пт': 5,}
 
     const schedule = new Schedule(
         process.env.NNGASU_LOGIN,
