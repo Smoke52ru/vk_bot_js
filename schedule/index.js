@@ -149,5 +149,3 @@ export async function getScheduleByLocaleDate(dateString = new Date().toLocaleDa
 export async function getScheduleToday() {
     return await getScheduleByPlusDays()
 }
-
-//console.log(await getScheduleByPlusDays(1))

@@ -64,6 +64,4 @@ export class Weather {
     }
 }
 
-// console.log(await Weather.getString())
-
 export default Weather;
