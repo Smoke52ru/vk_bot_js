@@ -53,7 +53,7 @@ bot.command(commands.keyboard, (ctx) => {
         const keyboard = new KB(KBButtons, {columns: 5})
         ctx.reply('Лови клаву)', null, keyboard.markup)
     } catch (e) {
-
+        console.error(e)
     }
 })
 
@@ -85,7 +85,7 @@ bot.command(commands.schedule, async (ctx) => {
                 }
         }
     } catch (e) {
-
+        console.error(e)
     }
 })
 
@@ -93,7 +93,7 @@ bot.command(commands.weather, async (ctx) => {
     try {
         ctx.reply(`${await Weather.getString()}`)
     } catch (e) {
-
+        console.error(e)
     }
 })
 

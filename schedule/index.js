@@ -114,7 +114,6 @@ export class Schedule {
 
         return this.schedule
     }
-
 }
 
 export async function getScheduleByWeekday(str) {
