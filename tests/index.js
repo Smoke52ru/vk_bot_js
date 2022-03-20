@@ -1,4 +1,4 @@
-import Weather from "../weather/index.js";
+import {Weather} from "../weather/index.js";
 import {getScheduleByPlusDays} from "../schedule/index.js";
 
 

@@ -1,7 +1,7 @@
 import VkBot from 'node-vk-bot-api'
 import {expandCommandsObject} from "./utils/commandFunctions.js";
 import {getScheduleByPlusDays, getScheduleByWeekday, getScheduleToday} from './schedule/index.js'
-import Weather from "./weather/index.js";
+import {Weather} from "./weather/index.js";
 import KB from "./keyboard/index.js";
 
 
@@ -102,7 +102,8 @@ bot.command(commands.weather, async (ctx) => {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 console.log('Bot is running...')
-setInterval(() => { // FIXME
-    console.log('Oscar Mike...')
+const timeOfStart = new Date()
+setInterval(() => {
+    console.log(`Oscar Mike... ${(Date() - timeOfStart) / (1000 * 60 * 60)} hours`)
 }, 1000 * 60 * 60)
 bot.startPolling();

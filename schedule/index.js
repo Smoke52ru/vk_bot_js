@@ -1,3 +1,5 @@
+// noinspection NonAsciiCharacters
+
 /*
 *   Формат сообщения{
 *       [Дата] - [День недели]
@@ -34,7 +36,14 @@ export class Schedule {
                 password = this._password) {
 
         const _url = 'https://www.nngasu.ru/cdb/schedule/student.php?login=yes';
-        const _dataStr = `AUTH_FORM=Y&TYPE=AUTH&backurl=%2Fcdb%2Fschedule%2Fstudent.php&USER_LOGIN=${login}&USER_PASSWORD=${password}&Login=%C2%EE%E9%F2%E8`
+        const _dataStr = (
+            `AUTH_FORM=Y` +
+            `&TYPE=AUTH` +
+            `&backurl=%2Fcdb%2Fschedule%2Fstudent.php` +
+            `&USER_LOGIN=${login}` +
+            `&USER_PASSWORD=${password}` +
+            `&Login=%C2%EE%E9%F2%E8`
+        )
 
 
         this._linkToSchedule =
@@ -57,7 +66,7 @@ export class Schedule {
             link = await this.login()
         }
 
-        this._linkToScheduleWithArgs = (this._linkToSchedule
+        this._linkToScheduleWithArgs = (link
             + `&ScheduleSearch%5Bstart_date%5D=${startDate}`
             + `&ScheduleSearch%5Bend_date%5D=${endDate}`)
 

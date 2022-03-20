@@ -63,5 +63,3 @@ export class Weather {
         )
     }
 }
-
-export default Weather;
