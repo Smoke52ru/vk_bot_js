@@ -80,6 +80,7 @@ bot.command(commands.schedule, async (ctx) => {
                     let arg = ctx.message.text.split(' ')[1]
                     plusDays = arg.startsWith('+') ? Number(arg.slice(1)) : 0
                 } catch (e) {
+                    console.error(e)
                 } finally {
                     ctx.reply(`${await getScheduleByPlusDays(plusDays)}`)
                 }

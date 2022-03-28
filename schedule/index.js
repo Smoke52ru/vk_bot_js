@@ -70,7 +70,7 @@ export class Schedule {
             + `&ScheduleSearch%5Bstart_date%5D=${startDate}`
             + `&ScheduleSearch%5Bend_date%5D=${endDate}`)
 
-        console.log('DEBUG: ' + this._linkToScheduleWithArgs)
+        if (process.env.DEV_MODE) console.log('DEBUG: ' + this._linkToScheduleWithArgs)
 
         this.schedule =
             await axios.get(this._linkToScheduleWithArgs)
